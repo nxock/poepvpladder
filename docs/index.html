@@ -123,7 +123,7 @@ table {
          document.getElementById("realmselection").innerHTML = "<a onClick=\"changerealm(1);\"><mark>[US]</mark></a>  <a onClick=\"changerealm(2);\">[EU]</a>"
       } else {
          currentrealm = "EU";
-         document.getElementById("realmselection").innerHTML = "<a onClick=\"changeleague(1);\">[US]</a>  <a onClick=\"changeleague(2);\"><mark>[EU]</mark></a>"
+         document.getElementById("realmselection").innerHTML = "<a onClick=\"changerealm(1);\">[US]</a>  <a onClick=\"changerealm(2);\"><mark>[EU]</mark></a>"
       }
 
       ladderstring = "https://www.pathofexile.com/api/ladders?offset=0&limit=100&id=" + currentrealm + "-" + currentleague + "+" + currentladder + "&type=pvp";
