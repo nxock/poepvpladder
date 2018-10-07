@@ -37,11 +37,11 @@ table {
 <pre>
 <font face="Courier New, Courier, mono" color="#D7DBE6">
 
-<center><a href="../index.php">home</a></center>
-<br>
-<center><mark>delve pvp ladder</mark></center>
+<center><mark>poe pvp ladder</mark></center>
 <br><br>
-<center id="ladderselection"><a onClick="changeladder(1);"><mark>[US 1v1]</mark></a>  <a onClick="changeladder(2);">[EU 1v1]</a>  <a onClick="changeladder(3);">[US CTF]</a>  <a onClick="changeladder(4);">[US 2v2]</a>  <a onClick="changeladder(5);">[US 3v3]</a></center>
+<center id="leagueselection"><a onClick="changeleague(1);">[STANDARD]</a>  <a onClick="changeleague(2);"><mark>[DELVE]</mark></a></center>
+<center id="realmselection"><a onClick="changerealm(1);"><mark>[US]</mark></a>  <a onClick="changerealm(2);">[EU]</a></center>
+<center id="ladderselection"><a onClick="changeladder(1);"><mark>[1v1]</mark></a>  <a onClick="changeladder(2);">[2v2]</a>  <a onClick="changeladder(3);">[3v3]</a>  <a onClick="changeladder(4);">[CTF]</a></center>
 <br>
 <center id="ladderdisp">LOADING LADDER</center>
 
@@ -59,12 +59,11 @@ table {
 
 
 <script>
-   var ctf = "https://www.pathofexile.com/api/ladders?offset=0&limit=100&id=US-DELV+CTF+Open&type=pvp";
-   var us1v1 = "https://www.pathofexile.com/api/ladders?offset=0&limit=100&id=US-DELV+1v1+Open&type=pvp";
-   var eu1v1 = "https://www.pathofexile.com/api/ladders?offset=0&limit=100&id=EU-DELV+1v1+Open&type=pvp";
-   var us2v2 = "https://www.pathofexile.com/api/ladders?offset=0&limit=100&id=US-DELV+2v2+Open&type=pvp";
-   var us3v3 = "https://www.pathofexile.com/api/ladders?offset=0&limit=100&id=US-DELV+3v3+Open&type=pvp";
-   var currentladder = us1v1;
+
+   var currentrealm = "US";
+   var currentleague = "DELV";
+   var currentladder = "1v1+Open";
+   var ladderstring = "https://www.pathofexile.com/api/ladders?offset=0&limit=100&id=US-DELV+1v1+Open&type=pvp";
    loadtable();
 
 
@@ -74,7 +73,7 @@ table {
    function loadtable() {
       document.getElementById("ladderdisp").innerHTML = "LOADING LADDER";
 
-      $.getJSON(currentladder, function(data){
+      $.getJSON(ladderstring, function(data){
          var tablestring = "<table>";
          tablestring += "<tr><th>Rank</th> <th>Character</th> <th>Account</th> <th>Rating</th></tr>";
 
@@ -98,25 +97,57 @@ table {
 
    function changeladder(input) {
       if (input == 1) {
-         currentladder = us1v1;
-         document.getElementById("ladderselection").innerHTML = "<a onClick=\"changeladder(1);\"><mark>[US 1v1]</mark></a>  <a onClick=\"changeladder(2);\">[EU 1v1]</a>  <a onClick=\"changeladder(3);\">[US CTF]</a>  <a onClick=\"changeladder(4);\">[US 2v2]</a>  <a onClick=\"changeladder(5);\">[US 3v3]</a>";
+         currentladder = "1v1+Open";
+         document.getElementById("ladderselection").innerHTML = "<a onClick=\"changeladder(1);\"><mark>[1v1]</mark></a>  <a onClick=\"changeladder(2);\">[2v2]</a>  <a onClick=\"changeladder(3);\">[3v3]</a>  <a onClick=\"changeladder(4);\">[CTF]</a>";
       } else if (input == 2) {
-         currentladder = eu1v1;
-         document.getElementById("ladderselection").innerHTML = "<a onClick=\"changeladder(1);\">[US 1v1]</a>  <a onClick=\"changeladder(2);\"><mark>[EU 1v1]</mark></a>  <a onClick=\"changeladder(3);\">[US CTF]</a>  <a onClick=\"changeladder(4);\">[US 2v2]</a>  <a onClick=\"changeladder(5);\">[US 3v3]</a>";
+         currentladder = "2v2+Open";
+         document.getElementById("ladderselection").innerHTML = "<a onClick=\"changeladder(1);\">[1v1]</a>  <a onClick=\"changeladder(2);\"><mark>[2v2]</mark></a>  <a onClick=\"changeladder(3);\">[3v3]</a>  <a onClick=\"changeladder(4);\">[CTF]</a>";
       } else if (input == 3){
-         currentladder = ctf;
-         document.getElementById("ladderselection").innerHTML = "<a onClick=\"changeladder(1);\">[US 1v1]</a>  <a onClick=\"changeladder(2);\">[EU 1v1]</a>  <a onClick=\"changeladder(3);\"><mark>[US CTF]</mark></a>  <a onClick=\"changeladder(4);\">[US 2v2]</a>  <a onClick=\"changeladder(5);\">[US 3v3]</a>";
+         currentladder = "3v3+Open";
+         document.getElementById("ladderselection").innerHTML = "<a onClick=\"changeladder(1);\">[1v1]</a>  <a onClick=\"changeladder(2);\">[2v2]</a>  <a onClick=\"changeladder(3);\"><mark>[3v3]</mark></a>  <a onClick=\"changeladder(4);\">[CTF]</a>";
       } else if (input == 4){
-         currentladder = us2v2;
-         document.getElementById("ladderselection").innerHTML = "<a onClick=\"changeladder(1);\">[US 1v1]</a>  <a onClick=\"changeladder(2);\">[EU 1v1]</a>  <a onClick=\"changeladder(3);\">[US CTF]</a>  <a onClick=\"changeladder(4);\"><mark>[US 2v2]</mark></a>  <a onClick=\"changeladder(5);\">[US 3v3]</a>";
-      } else {
-         currentladder = us3v3;
-         document.getElementById("ladderselection").innerHTML = "<a onClick=\"changeladder(1);\">[US 1v1]</a>  <a onClick=\"changeladder(2);\">[EU 1v1]</a>  <a onClick=\"changeladder(3);\">[US CTF]</a>  <a onClick=\"changeladder(4);\">[US 2v2]</a>  <a onClick=\"changeladder(5);\"><mark>[US 3v3]</mark></a>";
+         currentladder = "CTF+Open";
+         document.getElementById("ladderselection").innerHTML = "<a onClick=\"changeladder(1);\">[1v1]</a>  <a onClick=\"changeladder(2);\">[2v2]</a>  <a onClick=\"changeladder(3);\">[3v3]</a>  <a onClick=\"changeladder(4);\"><mark>[CTF]</mark></a>";
       }
+
+      ladderstring = "https://www.pathofexile.com/api/ladders?offset=0&limit=100&id=" + currentrealm + "-" + currentleague + "+" + currentladder + "&type=pvp";
 
       document.getElementById("ladderdisp").innerHTML = "LOADING LADDER";
       loadtable();
    }
+
+
+   function changerealm(input) {
+      if (input == 1) {
+         currentrealm = "US";
+         document.getElementById("realmselection").innerHTML = "<a onClick=\"changerealm(1);\"><mark>[US]</mark></a>  <a onClick=\"changerealm(2);\">[EU]</a>"
+      } else {
+         currentrealm = "EU";
+         document.getElementById("realmselection").innerHTML = "<a onClick=\"changeleague(1);\">[US]</a>  <a onClick=\"changeleague(2);\"><mark>[EU]</mark></a>"
+      }
+
+      ladderstring = "https://www.pathofexile.com/api/ladders?offset=0&limit=100&id=" + currentrealm + "-" + currentleague + "+" + currentladder + "&type=pvp";
+
+      document.getElementById("ladderdisp").innerHTML = "LOADING LADDER";
+      loadtable();
+   }
+
+   function changeleague(input) {
+      if (input == 1) {
+         currentleague = "ASTHC";
+         document.getElementById("leagueselection").innerHTML = "<a onClick=\"changeleague(1);\"><mark>[STANDARD]</mark></a>  <a onClick=\"changeleague(2);\">[DELVE]</a>"
+      } else {
+         currentleague = "DELV";
+         document.getElementById("leagueselection").innerHTML = "<a onClick=\"changeleague(1);\">[STANDARD]</a>  <a onClick=\"changeleague(2);\"><mark>[DELVE]</mark></a>"
+      }
+
+      ladderstring = "https://www.pathofexile.com/api/ladders?offset=0&limit=100&id=" + currentrealm + "-" + currentleague + "+" + currentladder + "&type=pvp";
+
+      document.getElementById("ladderdisp").innerHTML = "LOADING LADDER";
+      loadtable();
+   }
+
+
 
 </script>
 </html>
