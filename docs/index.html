@@ -66,7 +66,7 @@ table {
    var currentleague = "DELV";
    var currentladder = "1v1+Open";
    var laddersize = "20";
-   var ladderstring = "https://www.pathofexile.com/api/ladders?offset=0&limit=100&id=US-DELV+1v1+Open&type=pvp";
+   var ladderstring = "https://www.pathofexile.com/api/ladders?offset=0&limit=20&id=US-DELV+1v1+Open&type=pvp";
    loadtable();
 
 
@@ -79,12 +79,22 @@ table {
 
       $.getJSON(ladderstring, function(data){
          var tablestring = "<table>";
-         tablestring += "<tr><th>Rank</th> <th>Character</th> <th>Account</th> <th>Rating</th></tr>";
+         tablestring += "<tr><th>Rank</th> <th>Guild</th> <th>Character</th> <th>Account</th> <th>Rating</th></tr>";
 
           for (var i = 0; i < data.entries.length; i++){
             tablestring += '<tr>';
 
             tablestring += '<td>' + (i + 1) + '</td>';
+            if (data.entries[i].members[0].account.guild) {
+               
+               if (data.entries[i].members[0].account.guild["tag"] == "") {
+                  tablestring += "<td><a href=\"https://www.pathofexile.com/guild/profile/" + data.entries[i].members[0].account.guild["id"] +"\">[NOTAG]</a></td>";
+               } else {
+                  tablestring += "<td><a href=\"https://www.pathofexile.com/guild/profile/" + data.entries[i].members[0].account.guild["id"] +"\">[" + data.entries[i].members[0].account.guild["tag"] + "]</td>";
+               }
+            } else {
+               tablestring += "<td>[NONE]</td>";
+            }
             tablestring += "<td>" + data.entries[i].members[0]["character_name"] + "</td>";
             tablestring += "<td><a href=\"https://www.pathofexile.com/account/view-profile/" + data.entries[i].members[0].account["name"] + "\">" + data.entries[i].members[0].account["name"] + "</a></td>";
             tablestring += "<td>" + data.entries[i]["rating"] + "</td>";
