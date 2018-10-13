@@ -30,6 +30,7 @@ table {
    border-color: #D7DBE6;
 }
 
+
 </style>
 <body bgcolor="#747E89">
 
@@ -39,6 +40,7 @@ table {
 
 <center><mark>poe pvp ladder</mark></center>
 <br><br>
+<center id="laddersizeselect"><a onClick="changesize(1);"><mark>[20]</mark></a>  <a onClick="changesize(2);">[50]</a>  <a onClick="changesize(3);">[100]</a>  <a onClick="changesize(4);">[200]</a></center>
 <center id="leagueselection"><a onClick="changeleague(1);">[STANDARD]</a>  <a onClick="changeleague(2);"><mark>[DELVE]</mark></a></center>
 <center id="realmselection"><a onClick="changerealm(1);"><mark>[US]</mark></a>  <a onClick="changerealm(2);">[EU]</a></center>
 <center id="ladderselection"><a onClick="changeladder(1);"><mark>[1v1]</mark></a>  <a onClick="changeladder(2);">[2v2]</a>  <a onClick="changeladder(3);">[3v3]</a>  <a onClick="changeladder(4);">[CTF]</a></center>
@@ -63,6 +65,7 @@ table {
    var currentrealm = "US";
    var currentleague = "DELV";
    var currentladder = "1v1+Open";
+   var laddersize = "20";
    var ladderstring = "https://www.pathofexile.com/api/ladders?offset=0&limit=100&id=US-DELV+1v1+Open&type=pvp";
    loadtable();
 
@@ -71,6 +74,7 @@ table {
    
 
    function loadtable() {
+      ladderstring = "https://www.pathofexile.com/api/ladders?offset=0&limit=" + laddersize +"&id=" + currentrealm + "-" + currentleague + "+" + currentladder + "&type=pvp";
       document.getElementById("ladderdisp").innerHTML = "LOADING LADDER";
 
       $.getJSON(ladderstring, function(data){
@@ -95,6 +99,25 @@ table {
 
    }
 
+   function changesize(input) {
+      if (input == 1) {
+         laddersize = "20";
+         document.getElementById("laddersizeselect").innerHTML = "<a onClick=\"changesize(1);\"><mark>[20]</mark></a>  <a onClick=\"changesize(2);\">[50]</a>  <a onClick=\"changesize(3);\">[100]</a>  <a onClick=\"changesize(4);\">[200]</a>"
+      } else if (input == 2) {
+         laddersize = "50";
+         document.getElementById("laddersizeselect").innerHTML = "<a onClick=\"changesize(1);\">[20]</a>  <a onClick=\"changesize(2);\"><mark>[50]</mark></a>  <a onClick=\"changesize(3);\">[100]</a>  <a onClick=\"changesize(4);\">[200]</a>"
+      } else if (input == 3){
+         laddersize = "100";
+         document.getElementById("laddersizeselect").innerHTML = "<a onClick=\"changesize(1);\">[20]</a>  <a onClick=\"changesize(2);\">[50]</a>  <a onClick=\"changesize(3);\"><mark>[100]</mark></a>  <a onClick=\"changesize(4);\">[200]</a>"
+      } else if (input == 4){
+         laddersize = "200";
+         document.getElementById("laddersizeselect").innerHTML = "<a onClick=\"changesize(1);\">[20]</a>  <a onClick=\"changesize(2);\">[50]</a>  <a onClick=\"changesize(3);\">[100]</a>  <a onClick=\"changesize(4);\"><mark>[200]</mark></a>"
+      }
+
+      
+      loadtable();
+   }
+
    function changeladder(input) {
       if (input == 1) {
          currentladder = "1v1+Open";
@@ -110,9 +133,7 @@ table {
          document.getElementById("ladderselection").innerHTML = "<a onClick=\"changeladder(1);\">[1v1]</a>  <a onClick=\"changeladder(2);\">[2v2]</a>  <a onClick=\"changeladder(3);\">[3v3]</a>  <a onClick=\"changeladder(4);\"><mark>[CTF]</mark></a>";
       }
 
-      ladderstring = "https://www.pathofexile.com/api/ladders?offset=0&limit=100&id=" + currentrealm + "-" + currentleague + "+" + currentladder + "&type=pvp";
 
-      document.getElementById("ladderdisp").innerHTML = "LOADING LADDER";
       loadtable();
    }
 
@@ -126,9 +147,6 @@ table {
          document.getElementById("realmselection").innerHTML = "<a onClick=\"changerealm(1);\">[US]</a>  <a onClick=\"changerealm(2);\"><mark>[EU]</mark></a>"
       }
 
-      ladderstring = "https://www.pathofexile.com/api/ladders?offset=0&limit=100&id=" + currentrealm + "-" + currentleague + "+" + currentladder + "&type=pvp";
-
-      document.getElementById("ladderdisp").innerHTML = "LOADING LADDER";
       loadtable();
    }
 
@@ -141,9 +159,6 @@ table {
          document.getElementById("leagueselection").innerHTML = "<a onClick=\"changeleague(1);\">[STANDARD]</a>  <a onClick=\"changeleague(2);\"><mark>[DELVE]</mark></a>"
       }
 
-      ladderstring = "https://www.pathofexile.com/api/ladders?offset=0&limit=100&id=" + currentrealm + "-" + currentleague + "+" + currentladder + "&type=pvp";
-
-      document.getElementById("ladderdisp").innerHTML = "LOADING LADDER";
       loadtable();
    }
 
